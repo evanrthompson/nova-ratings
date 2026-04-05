@@ -1,29 +1,71 @@
 <template>
-  <span class="flex gap-1">
-      <template v-for="index in field.outOf" :key="index">
-          <div v-if="fieldValue >= index" class="text-primary-500">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3">
-              <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clip-rule="evenodd" />
-            </svg>
+    <span class="flex items-center gap-1">
+        <template v-for="index in outOf" :key="index">
+            <!-- Full filled -->
+            <span
+                v-if="isFullFilled(index, fieldValue)"
+                :class="filledColorClass"
+                :style="filledColorStyle"
+            >
+                <span v-if="hasEmoji" class="text-xs leading-none">{{ field.emoji }}</span>
+                <span v-else-if="hasCustomSvg" class="w-3 h-3 block" v-html="field.svg"></span>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3">
+                    <path fill-rule="evenodd" :d="defaultStarPath" clip-rule="evenodd" />
+                </svg>
+            </span>
 
-          </div>
-          <div v-else class="fill-gray-100 dark:fill-gray-500">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-3 h-3">
-              <path fill-rule="evenodd" d="M10.868 2.884c-.321-.772-1.415-.772-1.736 0l-1.83 4.401-4.753.381c-.833.067-1.171 1.107-.536 1.651l3.62 3.102-1.106 4.637c-.194.813.691 1.456 1.405 1.02L10 15.591l4.069 2.485c.713.436 1.598-.207 1.404-1.02l-1.106-4.637 3.62-3.102c.635-.544.297-1.584-.536-1.65l-4.752-.382-1.831-4.401Z" clip-rule="evenodd" />
-            </svg>
-          </div>
-      </template>
-  </span>
+            <!-- Half filled -->
+            <span
+                v-else-if="isHalfFilled(index, fieldValue)"
+                class="relative w-3 h-3"
+            >
+                <!-- Empty icon behind -->
+                <span class="absolute inset-0 text-gray-200 dark:text-gray-600">
+                    <span v-if="hasEmoji" class="text-xs leading-none opacity-30">{{ field.emoji }}</span>
+                    <span v-else-if="hasCustomSvg" class="w-3 h-3 block" v-html="field.svg"></span>
+                    <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3">
+                        <path fill-rule="evenodd" :d="defaultStarPath" clip-rule="evenodd" />
+                    </svg>
+                </span>
+                <!-- Filled half on top -->
+                <span
+                    class="absolute inset-0"
+                    :class="filledColorClass"
+                    :style="{ ...filledColorStyle, clipPath: 'inset(0 50% 0 0)' }"
+                >
+                    <span v-if="hasEmoji" class="text-xs leading-none">{{ field.emoji }}</span>
+                    <span v-else-if="hasCustomSvg" class="w-3 h-3 block" v-html="field.svg"></span>
+                    <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3">
+                        <path fill-rule="evenodd" :d="defaultStarPath" clip-rule="evenodd" />
+                    </svg>
+                </span>
+            </span>
+
+            <!-- Empty -->
+            <span v-else class="text-gray-200 dark:text-gray-600">
+                <span v-if="hasEmoji" class="text-xs leading-none opacity-30">{{ field.emoji }}</span>
+                <span v-else-if="hasCustomSvg" class="w-3 h-3 block" v-html="field.svg"></span>
+                <svg v-else xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3">
+                    <path fill-rule="evenodd" :d="defaultStarPath" clip-rule="evenodd" />
+                </svg>
+            </span>
+        </template>
+    </span>
 </template>
 
 <script>
-export default {
-  props: ['resourceName', 'field'],
+import RatingIcon from './RatingIcon'
 
-  computed: {
-    fieldValue() {
-      return this.field.displayedAs || this.field.value
+export default {
+    mixins: [RatingIcon],
+
+    props: ['resourceName', 'field'],
+
+    computed: {
+        fieldValue() {
+            const val = this.field.displayedAs ?? this.field.value;
+            return (parseFloat(val) || 0) * this.outOf;
+        },
     },
-  }
 }
 </script>

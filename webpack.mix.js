@@ -7,4 +7,4 @@ mix
   .js('resources/js/field.js', 'js')
   .vue({ version: 3 })
   .css('resources/css/field.css', 'css')
-  .nova('classward/nova-rating-field')
+  .nova('evanrthompson/nova-rating-field')

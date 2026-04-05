@@ -1,0 +1,8 @@
+/tests            export-ignore
+/node_modules     export-ignore
+/.editorconfig    export-ignore
+/webpack.mix.js   export-ignore
+/nova.mix.js      export-ignore
+/package.json     export-ignore
+/package-lock.json export-ignore
+/resources        export-ignore

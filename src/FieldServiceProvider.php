@@ -1,6 +1,6 @@
 <?php
 
-namespace Classward\NovaRatingField;
+namespace Evanrthompson\NovaRatingField;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Events\ServingNova;
