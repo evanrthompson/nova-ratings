@@ -1,6 +1,6 @@
 <?php
 
-namespace Evanrthompson\NovaRatingField;
+namespace Evanrthompson\NovaRatings;
 
 use Illuminate\Support\ServiceProvider;
 use Laravel\Nova\Events\ServingNova;
@@ -16,8 +16,8 @@ class FieldServiceProvider extends ServiceProvider
     public function boot()
     {
         Nova::serving(function (ServingNova $event) {
-            Nova::script('nova-rating-field', __DIR__.'/../dist/js/field.js');
-            Nova::style('nova-rating-field', __DIR__.'/../dist/css/field.css');
+            Nova::script('nova-ratings', __DIR__.'/../dist/js/field.js');
+            Nova::style('nova-ratings', __DIR__.'/../dist/css/field.css');
         });
     }
 

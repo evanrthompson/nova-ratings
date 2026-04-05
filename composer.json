@@ -1,5 +1,5 @@
 {
-    "name": "evanrthompson/nova-rating-field",
+    "name": "evanrthompson/nova-ratings",
     "description": "A star rating field for Laravel Nova with half-star ratings, custom icons, and color customization.",
     "keywords": [
         "laravel",
@@ -14,31 +14,32 @@
             "name": "Evan R. Thompson"
         }
     ],
-    "homepage": "https://github.com/evanrthompson/nova-rating-field",
+    "homepage": "https://github.com/evanrthompson/nova-ratings",
     "support": {
-        "issues": "https://github.com/evanrthompson/nova-rating-field/issues"
+        "issues": "https://github.com/evanrthompson/nova-ratings/issues"
     },
     "require": {
         "php": "^8.3",
-        "laravel/nova": "^5.0"
+        "illuminate/support": "^11.0|^12.0|^13.0"
     },
     "require-dev": {
-        "pestphp/pest": "^3.0|^4.0"
+        "pestphp/pest": "^3.0|^4.0",
+        "laravel/nova": "^5.0"
     },
     "autoload": {
         "psr-4": {
-            "Evanrthompson\\NovaRatingField\\": "src/"
+            "Evanrthompson\\NovaRatings\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Evanrthompson\\NovaRatingField\\Tests\\": "tests/"
+            "Evanrthompson\\NovaRatings\\Tests\\": "tests/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Evanrthompson\\NovaRatingField\\FieldServiceProvider"
+                "Evanrthompson\\NovaRatings\\FieldServiceProvider"
             ]
         }
     },

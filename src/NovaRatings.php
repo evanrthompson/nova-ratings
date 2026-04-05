@@ -1,18 +1,18 @@
 <?php
 
-namespace Evanrthompson\NovaRatingField;
+namespace Evanrthompson\NovaRatings;
 
 use InvalidArgumentException;
 use Laravel\Nova\Fields\Field;
 
-class NovaRatingField extends Field
+class NovaRatings extends Field
 {
     /**
      * The field's component.
      *
      * @var string
      */
-    public $component = 'nova-rating-field';
+    public $component = 'nova-ratings';
 
     /**
      * @var array<string, mixed>

@@ -1,4 +1,4 @@
-# Nova Rating Field
+# Nova Ratings
 
 A star rating field for Laravel Nova 5 with half-star ratings, custom icons, and color customization.
 
@@ -10,7 +10,7 @@ A star rating field for Laravel Nova 5 with half-star ratings, custom icons, and
 ## Installation
 
 ```bash
-composer require evanrthompson/nova-rating-field
+composer require evanrthompson/nova-ratings
 ```
 
 ## Usage
@@ -18,12 +18,12 @@ composer require evanrthompson/nova-rating-field
 Add the field to your Nova resource:
 
 ```php
-use Evanrthompson\NovaRatingField\NovaRatingField;
+use Evanrthompson\NovaRatings\NovaRatings;
 
 public function fields(NovaRequest $request): array
 {
     return [
-        NovaRatingField::make('Rating'),
+        NovaRatings::make('Rating'),
     ];
 }
 ```
@@ -35,7 +35,7 @@ public function fields(NovaRequest $request): array
 Set the maximum rating scale. Default: `5`.
 
 ```php
-NovaRatingField::make('Rating')->outOf(10)
+NovaRatings::make('Rating')->outOf(10)
 ```
 
 ### `clearable()`
@@ -43,7 +43,7 @@ NovaRatingField::make('Rating')->outOf(10)
 Show a clear button that resets the rating to 0.
 
 ```php
-NovaRatingField::make('Rating')->clearable()
+NovaRatings::make('Rating')->clearable()
 ```
 
 ### `allowHalf()`
@@ -51,7 +51,7 @@ NovaRatingField::make('Rating')->clearable()
 Enable half-star increments. Clicking the left half of an icon sets a `.5` value, the right half sets a whole value.
 
 ```php
-NovaRatingField::make('Rating')->allowHalf()
+NovaRatings::make('Rating')->allowHalf()
 ```
 
 ### `color(string $color)`
@@ -59,7 +59,7 @@ NovaRatingField::make('Rating')->allowHalf()
 Set the filled icon color using any CSS color value.
 
 ```php
-NovaRatingField::make('Rating')->color('#f59e0b')
+NovaRatings::make('Rating')->color('#f59e0b')
 ```
 
 ### `svg(string $path)`
@@ -67,7 +67,7 @@ NovaRatingField::make('Rating')->color('#f59e0b')
 Use a custom SVG file instead of the default star. The SVG file is read at render time and should use `currentColor` for its fill to work with `color()`.
 
 ```php
-NovaRatingField::make('Rating')->svg(public_path('icons/heart.svg'))
+NovaRatings::make('Rating')->svg(public_path('icons/heart.svg'))
 ```
 
 ### `emoji(string $emoji)`
@@ -75,7 +75,7 @@ NovaRatingField::make('Rating')->svg(public_path('icons/heart.svg'))
 Use an emoji character instead of stars.
 
 ```php
-NovaRatingField::make('Rating')->emoji('🔥')
+NovaRatings::make('Rating')->emoji('🔥')
 ```
 
 > **Note:** `svg()` and `emoji()` are mutually exclusive. If both are called, the last one wins.
@@ -95,30 +95,30 @@ The field automatically converts between the stored percentage and the visual sc
 A real-world resource using multiple rating fields with different configurations:
 
 ```php
-use Evanrthompson\NovaRatingField\NovaRatingField;
+use Evanrthompson\NovaRatings\NovaRatings;
 
 public function fields(NovaRequest $request): array
 {
     return [
-        NovaRatingField::make('Rating')
+        NovaRatings::make('Rating')
             ->outOf(5)
             ->clearable()
             ->allowHalf()
             ->sortable()
             ->help('Overall recipe rating'),
 
-        NovaRatingField::make('Flavor')
+        NovaRatings::make('Flavor')
             ->outOf(5)
             ->allowHalf()
             ->svg(public_path('icons/heart.svg'))
             ->color('#ef4444'),
 
-        NovaRatingField::make('Spice Level', 'spice_level')
+        NovaRatings::make('Spice Level', 'spice_level')
             ->outOf(5)
             ->allowHalf()
             ->emoji('🌶️'),
 
-        NovaRatingField::make('Difficulty')
+        NovaRatings::make('Difficulty')
             ->outOf(3)
             ->emoji('🔪'),
     ];

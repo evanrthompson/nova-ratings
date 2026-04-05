@@ -1,9 +1,9 @@
 <?php
 
-use Evanrthompson\NovaRatingField\NovaRatingField;
+use Evanrthompson\NovaRatings\NovaRatings;
 
 it('has default meta values', function () {
-    $field = NovaRatingField::make('Rating');
+    $field = NovaRatings::make('Rating');
     $data = $field->jsonSerialize();
 
     expect($data['outOf'])->toBe(5)
@@ -15,42 +15,42 @@ it('has default meta values', function () {
 });
 
 it('sets outOf via method', function () {
-    $field = NovaRatingField::make('Rating')->outOf(10);
+    $field = NovaRatings::make('Rating')->outOf(10);
     $data = $field->jsonSerialize();
 
     expect($data['outOf'])->toBe(10);
 });
 
 it('sets clearable via method', function () {
-    $field = NovaRatingField::make('Rating')->clearable();
+    $field = NovaRatings::make('Rating')->clearable();
     $data = $field->jsonSerialize();
 
     expect($data['clearable'])->toBe(true);
 });
 
 it('sets clearable to false explicitly', function () {
-    $field = NovaRatingField::make('Rating')->clearable(false);
+    $field = NovaRatings::make('Rating')->clearable(false);
     $data = $field->jsonSerialize();
 
     expect($data['clearable'])->toBe(false);
 });
 
 it('sets allowHalf via method', function () {
-    $field = NovaRatingField::make('Rating')->allowHalf();
+    $field = NovaRatings::make('Rating')->allowHalf();
     $data = $field->jsonSerialize();
 
     expect($data['allowHalf'])->toBe(true);
 });
 
 it('sets color via method', function () {
-    $field = NovaRatingField::make('Rating')->color('#f59e0b');
+    $field = NovaRatings::make('Rating')->color('#f59e0b');
     $data = $field->jsonSerialize();
 
     expect($data['color'])->toBe('#f59e0b');
 });
 
 it('sets emoji via method', function () {
-    $field = NovaRatingField::make('Rating')->emoji('🔥');
+    $field = NovaRatings::make('Rating')->emoji('🔥');
     $data = $field->jsonSerialize();
 
     expect($data['emoji'])->toBe('🔥');
@@ -60,7 +60,7 @@ it('reads svg file and sets meta', function () {
     $path = tempnam(sys_get_temp_dir(), 'svg');
     file_put_contents($path, '<svg viewBox="0 0 24 24"><path d="M12 0"/></svg>');
 
-    $field = NovaRatingField::make('Rating')->svg($path);
+    $field = NovaRatings::make('Rating')->svg($path);
     $data = $field->jsonSerialize();
 
     expect($data['svg'])->toBe('<svg viewBox="0 0 24 24"><path d="M12 0"/></svg>');
@@ -69,7 +69,7 @@ it('reads svg file and sets meta', function () {
 });
 
 it('throws exception for non-existent svg file', function () {
-    NovaRatingField::make('Rating')->svg('/nonexistent/path.svg');
+    NovaRatings::make('Rating')->svg('/nonexistent/path.svg');
 })->throws(InvalidArgumentException::class);
 
 it('last icon method wins between svg and emoji', function () {
@@ -77,13 +77,13 @@ it('last icon method wins between svg and emoji', function () {
     file_put_contents($path, '<svg><path d="M0 0"/></svg>');
 
     // emoji called last — emoji wins
-    $field = NovaRatingField::make('Rating')->svg($path)->emoji('🔥');
+    $field = NovaRatings::make('Rating')->svg($path)->emoji('🔥');
     $data = $field->jsonSerialize();
     expect($data['emoji'])->toBe('🔥')
         ->and($data['svg'])->toBeNull();
 
     // svg called last — svg wins
-    $field = NovaRatingField::make('Rating')->emoji('🔥')->svg($path);
+    $field = NovaRatings::make('Rating')->emoji('🔥')->svg($path);
     $data = $field->jsonSerialize();
     expect($data['svg'])->toBe('<svg><path d="M0 0"/></svg>')
         ->and($data['emoji'])->toBeNull();
@@ -92,7 +92,7 @@ it('last icon method wins between svg and emoji', function () {
 });
 
 it('supports method chaining', function () {
-    $field = NovaRatingField::make('Rating')
+    $field = NovaRatings::make('Rating')
         ->outOf(10)
         ->clearable()
         ->allowHalf()
@@ -109,21 +109,21 @@ it('supports method chaining', function () {
 });
 
 it('sets outOf to default 5 when called with no arguments', function () {
-    $field = NovaRatingField::make('Rating')->outOf(10)->outOf();
+    $field = NovaRatings::make('Rating')->outOf(10)->outOf();
     $data = $field->jsonSerialize();
 
     expect($data['outOf'])->toBe(5);
 });
 
 it('sets allowHalf to false explicitly', function () {
-    $field = NovaRatingField::make('Rating')->allowHalf()->allowHalf(false);
+    $field = NovaRatings::make('Rating')->allowHalf()->allowHalf(false);
     $data = $field->jsonSerialize();
 
     expect($data['allowHalf'])->toBe(false);
 });
 
 it('does not clear svg or emoji when setting color', function () {
-    $field = NovaRatingField::make('Rating')->emoji('🔥')->color('#ff0000');
+    $field = NovaRatings::make('Rating')->emoji('🔥')->color('#ff0000');
     $data = $field->jsonSerialize();
 
     expect($data['color'])->toBe('#ff0000')
@@ -132,7 +132,7 @@ it('does not clear svg or emoji when setting color', function () {
     $path = tempnam(sys_get_temp_dir(), 'svg');
     file_put_contents($path, '<svg><circle r="10"/></svg>');
 
-    $field = NovaRatingField::make('Rating')->svg($path)->color('#00ff00');
+    $field = NovaRatings::make('Rating')->svg($path)->color('#00ff00');
     $data = $field->jsonSerialize();
 
     expect($data['color'])->toBe('#00ff00')
@@ -152,7 +152,7 @@ SVG;
     $path = tempnam(sys_get_temp_dir(), 'svg');
     file_put_contents($path, $svgContent);
 
-    $field = NovaRatingField::make('Rating')->svg($path);
+    $field = NovaRatings::make('Rating')->svg($path);
     $data = $field->jsonSerialize();
 
     expect($data['svg'])->toBe($svgContent);
@@ -161,16 +161,16 @@ SVG;
 });
 
 it('has the correct component name', function () {
-    $field = NovaRatingField::make('Rating');
+    $field = NovaRatings::make('Rating');
 
-    expect($field->component)->toBe('nova-rating-field');
+    expect($field->component)->toBe('nova-ratings');
 });
 
 it('resolves value from model attribute', function () {
     $model = new stdClass;
     $model->rating = 0.7;
 
-    $field = NovaRatingField::make('Rating');
+    $field = NovaRatings::make('Rating');
     $field->resolve($model);
     $data = $field->jsonSerialize();
 
@@ -178,7 +178,7 @@ it('resolves value from model attribute', function () {
 });
 
 it('uses correct attribute when explicitly provided', function () {
-    $field = NovaRatingField::make('Spice Level', 'spice_level');
+    $field = NovaRatings::make('Spice Level', 'spice_level');
 
     expect($field->attribute)->toBe('spice_level');
 
@@ -192,7 +192,7 @@ it('uses correct attribute when explicitly provided', function () {
 });
 
 it('merges custom withMeta alongside rating meta', function () {
-    $field = NovaRatingField::make('Rating')
+    $field = NovaRatings::make('Rating')
         ->outOf(5)
         ->allowHalf()
         ->withMeta(['customKey' => 'customValue']);
